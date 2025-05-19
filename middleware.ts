@@ -9,21 +9,6 @@ export const config = {
 // Define public routes
 const PUBLIC_ROUTES = ["/api/v1/users"];
 
-// export default function middleware(request: Request) {
-//   if (request.url.includes("/api/blogs")) {
-//     const logResult = logMiddleware(request);
-//     console.log(logResult.response);
-//   }
-
-//   const authResult = authMiddleware(request);
-//   if (!authResult?.isValid) {
-//     return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
-//       status: 401,
-//     });
-//   }
-//   return NextResponse.next();
-// }
-
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -66,6 +51,20 @@ export default function middleware(request: NextRequest) {
 
     if (logResult && logResult.response) {
       console.log("[USER LOG]", logResult.response);
+    }
+  }
+
+  // Log only for /api/v1/notes routes
+  if (pathname.startsWith("/api/v1/notes")) {
+    const logResult = logMiddleware(request);
+    console.log("[NOTE LOG]", logResult.response);
+
+    if (logResult && logResult.message) {
+      console.log("[NOTE LOG]", logResult.message);
+    }
+
+    if (logResult && logResult.response) {
+      console.log("[NOTE LOG]", logResult.response);
     }
   }
 
