@@ -41,7 +41,7 @@
       }
     },
     {
-      "url": "https://backend-product-list-cart-directory-api-ui.vercel.app/api/v1",
+      "url": "https://ressuman-backend-restful-api-next-js-odm-blog-management.vercel.app/api/v1",
       "description": "Production deployment (Vercel)"
     }
   ],

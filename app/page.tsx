@@ -1,61 +1,93 @@
-import { ArrowRight, BookOpen, Code2, Server } from "lucide-react";
-import Link from "next/link";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ChevronRight, Home, Info } from "lucide-react";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            Modern API Documentation
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            A powerful REST API built with Next.js and documented with Swagger
-            UI, providing a seamless development experience.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <Server className="w-12 h-12 text-blue-600 mb-4" />
-            <h2 className="text-2xl font-semibold mb-4">RESTful API</h2>
-            <p className="text-gray-600 mb-4">
-              Built with Next.js API routes, providing a robust and scalable
-              backend infrastructure.
-            </p>
-          </div>
-
-          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <BookOpen className="w-12 h-12 text-blue-600 mb-4" />
-            <h2 className="text-2xl font-semibold mb-4">
-              Swagger Documentation
-            </h2>
-            <p className="text-gray-600 mb-4">
-              Interactive API documentation powered by Swagger UI, making it
-              easy to explore and test endpoints.
-            </p>
-          </div>
-
-          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <Code2 className="w-12 h-12 text-blue-600 mb-4" />
-            <h2 className="text-2xl font-semibold mb-4">Type Safety</h2>
-            <p className="text-gray-600 mb-4">
-              Built with TypeScript for enhanced developer experience and code
-              reliability.
-            </p>
-          </div>
-        </div>
-
-        <div className="text-center">
-          <Link
-            href="/docs"
-            className="inline-flex items-center px-6 py-3 text-lg font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            View API Documentation
-            <ArrowRight className="ml-2 w-5 h-5" />
-          </Link>
+    <main className="flex min-h-screen flex-col items-center justify-between p-8 md:p-24 bg-slate-50 dark:bg-slate-900">
+      {/* Hero Section */}
+      <div className="w-full max-w-5xl text-center space-y-6 py-12">
+        <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white">
+          Welcome to My Site
+        </h1>
+        <p className="text-xl text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
+          A beautiful home page built with Next.js and shadcn/ui components.
+        </p>
+        <div className="flex flex-wrap justify-center gap-4 pt-4">
+          <Button size="lg">
+            Get Started
+            <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="lg">
+            Learn More
+          </Button>
         </div>
       </div>
-    </div>
+
+      {/* Alert Section */}
+      <Alert className="max-w-2xl w-full bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
+        <Info className="h-4 w-4" />
+        <AlertTitle>Heads up!</AlertTitle>
+        <AlertDescription>
+          This page uses shadcn/ui components for a clean, accessible design
+          system.
+        </AlertDescription>
+      </Alert>
+
+      {/* Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl py-12">
+        {[
+          {
+            title: "Responsive Design",
+            description:
+              "Fully responsive layout that works on all devices and screen sizes.",
+            icon: <Home width={24} height={24} />,
+          },
+          {
+            title: "shadcn/ui Components",
+            description:
+              "Beautiful, accessible components built on top of Radix UI and Tailwind CSS.",
+            icon: <Info width={24} height={24} />,
+          },
+          {
+            title: "Next.js Framework",
+            description:
+              "Built with Next.js for optimal performance and developer experience.",
+            icon: <ChevronRight width={24} height={24} />,
+          },
+        ].map((feature, index) => (
+          <Card key={index} className="border-slate-200 dark:border-slate-700">
+            <CardHeader>
+              <div className="p-2 rounded-md bg-slate-100 dark:bg-slate-800 w-fit">
+                {feature.icon}
+              </div>
+              <CardTitle className="mt-4">{feature.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>{feature.description}</CardDescription>
+            </CardContent>
+            <CardFooter>
+              <Button variant="ghost" size="sm">
+                Learn more
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <footer className="w-full py-6 text-center text-slate-600 dark:text-slate-400">
+        © {new Date().getFullYear()} Richard Essuman. All rights reserved.
+      </footer>
+    </main>
   );
 }
