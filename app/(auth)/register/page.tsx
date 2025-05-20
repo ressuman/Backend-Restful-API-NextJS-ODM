@@ -24,7 +24,9 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  interface SignupFormEvent extends React.FormEvent<HTMLFormElement> {}
+
+  const handleSubmit = (e: SignupFormEvent): void => {
     e.preventDefault();
     // Your login logic here
   };
