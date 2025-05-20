@@ -150,7 +150,7 @@ export default function Navbar() {
                       // alt={`${session.user?.name || "User"}'s profile`}
                     />
                     <AvatarFallback>
-                      {/* {session.user?.name?.[0] || "U"} */}"U"
+                      {/* {session.user?.name?.[0] || "U"} */}hu
                     </AvatarFallback>
                   </Avatar>
                 </Button>
