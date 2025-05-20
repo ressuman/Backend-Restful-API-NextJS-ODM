@@ -14,14 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 //import { Github, Google, Search } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
-import {
-  FaApple,
-  FaFacebook,
-  FaGithub,
-  FaLinkedin,
-  FaMicrosoft,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaFacebook, FaGithub, FaMicrosoft } from "react-icons/fa";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -121,30 +114,7 @@ export default function Login() {
               <FaFacebook size={18} />
               <span>Sign in with Facebook</span>
             </Button>
-            <Button
-              variant="outline"
-              className="w-full flex items-center gap-2"
-              //onClick={() => signIn("twitter")}
-            >
-              <FaTwitter size={18} />
-              <span>Sign in with Twitter</span>
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full flex items-center gap-2"
-              //onClick={() => signIn("linkedin")}
-            >
-              <FaLinkedin size={18} />
-              <span>Sign in with LinkedIn</span>
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full flex items-center gap-2"
-              //onClick={() => signIn("apple")}
-            >
-              <FaApple size={18} />
-              <span>Sign in with Apple</span>
-            </Button>
+
             <Button
               variant="outline"
               className="w-full flex items-center gap-2"

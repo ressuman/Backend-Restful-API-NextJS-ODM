@@ -7,7 +7,11 @@ export const config = {
 };
 
 // Define public routes
-const PUBLIC_ROUTES = ["/api/v1/users"];
+const PUBLIC_ROUTES = [
+  "/api/v1/users",
+  // "/api/v1/auth/login",
+  "/api/v1/auth/register",
+];
 
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

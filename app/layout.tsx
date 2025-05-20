@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import Navbar from "./components/nav-bar";
+import { Toaster } from "@/components/ui/toaster";
 //import { SessionProvider } from "next-auth/react";
 //import { getServerSession } from "next-auth";
 
@@ -43,6 +44,8 @@ export default async function RootLayout({
               <footer className="py-4 text-center text-sm text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
                 © {new Date().getFullYear()} Your App. All rights reserved.
               </footer>
+
+              <Toaster />
             </div>
           </div>
         </ThemeProvider>
