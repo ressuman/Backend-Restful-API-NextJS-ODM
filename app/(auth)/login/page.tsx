@@ -98,7 +98,7 @@ export default function Login() {
             <Button
               variant="outline"
               className="w-full flex items-center gap-2"
-              onClick={() => signIn("github")}
+              //onClick={() => signIn("github")}
             >
               <FaGithub size={18} />
               <span>Sign in with GitHub</span>
@@ -106,7 +106,7 @@ export default function Login() {
             <Button
               variant="outline"
               className="w-full flex items-center gap-2"
-              onClick={() => signIn("google")}
+              //onClick={() => signIn("google")}
             >
               <FcGoogle size={18} />
               <span>Sign in with Google</span>
@@ -114,7 +114,7 @@ export default function Login() {
             <Button
               variant="outline"
               className="w-full flex items-center gap-2"
-              onClick={() => signIn("facebook")}
+              //onClick={() => signIn("facebook")}
             >
               <FaFacebook size={18} />
               <span>Sign in with Facebook</span>
@@ -122,7 +122,7 @@ export default function Login() {
             <Button
               variant="outline"
               className="w-full flex items-center gap-2"
-              onClick={() => signIn("twitter")}
+              //onClick={() => signIn("twitter")}
             >
               <FaTwitter size={18} />
               <span>Sign in with Twitter</span>
@@ -130,7 +130,7 @@ export default function Login() {
             <Button
               variant="outline"
               className="w-full flex items-center gap-2"
-              onClick={() => signIn("linkedin")}
+              //onClick={() => signIn("linkedin")}
             >
               <FaLinkedin size={18} />
               <span>Sign in with LinkedIn</span>
@@ -138,7 +138,7 @@ export default function Login() {
             <Button
               variant="outline"
               className="w-full flex items-center gap-2"
-              onClick={() => signIn("apple")}
+              //onClick={() => signIn("apple")}
             >
               <FaApple size={18} />
               <span>Sign in with Apple</span>
@@ -146,7 +146,7 @@ export default function Login() {
             <Button
               variant="outline"
               className="w-full flex items-center gap-2"
-              onClick={() => signIn("microsoft")}
+              //onClick={() => signIn("microsoft")}
             >
               <FaMicrosoft size={18} />
               <span>Sign in with Microsoft</span>
@@ -155,7 +155,7 @@ export default function Login() {
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-slate-600 dark:text-slate-400">
-            Don't have an account?{" "}
+            Don&#39;t have an account?{" "}
             <Link
               href="/register"
               className="text-primary font-medium hover:underline"

@@ -199,12 +199,17 @@ export default function Docs() {
                 Interactive API Reference
               </h3>
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-slate-500 dark:text-slate-400">
+                <label
+                  htmlFor="environment-select"
+                  className="text-sm text-slate-500 dark:text-slate-400"
+                >
                   Environment:
-                </span>
+                </label>
                 <select
+                  id="environment-select"
                   className="border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm text-slate-900 dark:text-white"
                   defaultValue="production"
+                  aria-label="Environment"
                 >
                   <option value="local">Local Development</option>
                   <option value="production">Production</option>
@@ -230,14 +235,14 @@ export default function Docs() {
             </div>
             <div className="text-sm text-slate-500 dark:text-slate-400">
               <a
-                href="#"
+                href="#hg"
                 className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
               >
                 Terms
               </a>
               <span className="mx-2">•</span>
               <a
-                href="#"
+                href="#sd"
                 className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
               >
                 Privacy
