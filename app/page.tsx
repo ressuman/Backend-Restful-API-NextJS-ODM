@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ChevronRight, Home, Info } from "lucide-react";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
@@ -25,13 +26,20 @@ export default function HomePage() {
           A beautiful home page built with Next.js and shadcn/ui components.
         </p>
         <div className="flex flex-wrap justify-center gap-4 pt-4">
-          <Button size="lg">
-            Get Started
-            <ChevronRight className="ml-2 h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="lg">
-            Learn More
-          </Button>
+          <Link href="/docs" passHref>
+            <Button size="lg" asChild>
+              <span>
+                View API Documentation
+                <ChevronRight className="ml-2 h-4 w-4 inline" />
+              </span>
+            </Button>
+          </Link>
+
+          <Link href="/api" passHref>
+            <Button variant="outline" size="lg" asChild>
+              <span>Go to Backend Home</span>
+            </Button>
+          </Link>
         </div>
       </div>
 

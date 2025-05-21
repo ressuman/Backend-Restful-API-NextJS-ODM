@@ -20,6 +20,18 @@ export const POST = async (request: Request) => {
     );
   }
 
+  const existingUsername = await User.findOne({ username });
+
+  if (existingUsername) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Username is already in use",
+      },
+      { status: 400 }
+    );
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser = new User({

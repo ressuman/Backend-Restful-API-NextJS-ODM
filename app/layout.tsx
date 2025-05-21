@@ -4,8 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import Navbar from "./components/nav-bar";
 import { Toaster } from "@/components/ui/toaster";
-//import { SessionProvider } from "next-auth/react";
-//import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
+import NextAuthSessionProvider from "@/components/provider/session-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +20,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //const session = await getServerSession();
+  const session = await getServerSession();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -34,20 +34,21 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* <SessionProvider session={session}></SessionProvider> */}
-          <div className="flex flex-col min-h-screen">
-            <div className="container mx-auto px-4 sm:px-6">
-              <Navbar />
+          <NextAuthSessionProvider session={session}>
+            <div className="flex flex-col min-h-screen">
+              <div className="container mx-auto px-4 sm:px-6">
+                <Navbar />
 
-              <main className="flex-1 py-4">{children}</main>
+                <main className="flex-1 py-4">{children}</main>
 
-              <footer className="py-4 text-center text-sm text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
-                © {new Date().getFullYear()} Your App. All rights reserved.
-              </footer>
+                <footer className="py-4 text-center text-sm text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
+                  © {new Date().getFullYear()} Your App. All rights reserved.
+                </footer>
 
-              <Toaster />
+                <Toaster />
+              </div>
             </div>
-          </div>
+          </NextAuthSessionProvider>
         </ThemeProvider>
       </body>
     </html>
