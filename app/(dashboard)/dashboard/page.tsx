@@ -8,8 +8,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Activity, Settings, User } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const session = await getServerSession();
+
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
     <div className="w-full max-w-6xl mx-auto my-36 bg-slate-50 dark:bg-slate-950">
       <Card className="border-none shadow-lg">
