@@ -49,7 +49,7 @@ export default function Login() {
   // Show loading state while checking session
   if (sessionStatus === "loading") {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="fixed inset-0 flex justify-center items-center bg-slate-50 dark:bg-slate-950 z-50">
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
           <p className="text-lg font-medium">Loading...</p>
@@ -186,136 +186,138 @@ export default function Login() {
   const emailState = getEmailValidationState();
 
   return (
-    <div className="flex justify-center my-12 bg-slate-50 dark:bg-slate-950">
-      <Card className="w-full max-w-md shadow-xl border-none">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold text-center">
-            Login
-          </CardTitle>
-          <CardDescription className="text-center">
-            Enter your credentials to sign in to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-1">
-              <Input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={`bg-white dark:bg-slate-900 ${
-                  touched.email && !emailState.isValid ? "border-red-500" : ""
-                }`}
-              />
-              {touched.email && !emailState.isValid && (
-                <p className="text-xs text-red-500">{emailState.message}</p>
-              )}
-            </div>
-
-            <div className="space-y-1">
-              <div className="relative">
+    sessionStatus !== "authenticated" && (
+      <div className="flex justify-center my-12 bg-slate-50 dark:bg-slate-950">
+        <Card className="w-full max-w-md shadow-xl border-none">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-3xl font-bold text-center">
+              Login
+            </CardTitle>
+            <CardDescription className="text-center">
+              Enter your credentials to sign in to your account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-1">
                 <Input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  required
-                  className="bg-white dark:bg-slate-900 pr-10"
+                  className={`bg-white dark:bg-slate-900 ${
+                    touched.email && !emailState.isValid ? "border-red-500" : ""
+                  }`}
                 />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
+                {touched.email && !emailState.isValid && (
+                  <p className="text-xs text-red-500">{emailState.message}</p>
+                )}
               </div>
+
+              <div className="space-y-1">
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    required
+                    className="bg-white dark:bg-slate-900 pr-10"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end">
+                <Link
+                  href="/forgot-password"
+                  className="text-sm text-primary hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? "Signing in..." : "Sign In"}
+              </Button>
+            </form>
+
+            <div className="relative my-4">
+              <Separator />
+              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-950 px-2 text-xs text-slate-500">
+                OR CONTINUE WITH
+              </span>
             </div>
 
-            <div className="flex items-center justify-end">
-              <Link
-                href="/forgot-password"
-                className="text-sm text-primary hover:underline"
+            <div className="space-y-2">
+              <Button
+                variant="outline"
+                type="button"
+                className="w-full flex items-center gap-2"
+                onClick={() =>
+                  signIn("github", {
+                    callbackUrl: "/dashboard",
+                  })
+                } // Redirect to dashboard after GitHub login
               >
-                Forgot password?
-              </Link>
+                <FaGithub size={18} />
+                <span>Sign in with GitHub</span>
+              </Button>
+              <Button
+                variant="outline"
+                type="button"
+                className="w-full flex items-center gap-2"
+                onClick={() =>
+                  signIn("google", {
+                    callbackUrl: "/dashboard",
+                  })
+                }
+              >
+                <FcGoogle size={18} />
+                <span>Sign in with Google</span>
+              </Button>
+              <Button
+                variant="outline"
+                type="button"
+                className="w-full flex items-center gap-2"
+                onClick={() =>
+                  signIn("facebook", {
+                    callbackUrl: "/dashboard",
+                  })
+                }
+              >
+                <FaFacebook size={18} />
+                <span>Sign in with Facebook</span>
+              </Button>
             </div>
-
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Signing in..." : "Sign In"}
-            </Button>
-          </form>
-
-          <div className="relative my-4">
-            <Separator />
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-950 px-2 text-xs text-slate-500">
-              OR CONTINUE WITH
-            </span>
-          </div>
-
-          <div className="space-y-2">
-            <Button
-              variant="outline"
-              type="button"
-              className="w-full flex items-center gap-2"
-              onClick={() =>
-                signIn("github", {
-                  callbackUrl: "/dashboard",
-                })
-              } // Redirect to dashboard after GitHub login
-            >
-              <FaGithub size={18} />
-              <span>Sign in with GitHub</span>
-            </Button>
-            <Button
-              variant="outline"
-              type="button"
-              className="w-full flex items-center gap-2"
-              onClick={() =>
-                signIn("google", {
-                  callbackUrl: "/dashboard",
-                })
-              }
-            >
-              <FcGoogle size={18} />
-              <span>Sign in with Google</span>
-            </Button>
-            <Button
-              variant="outline"
-              type="button"
-              className="w-full flex items-center gap-2"
-              onClick={() =>
-                signIn("facebook", {
-                  callbackUrl: "/dashboard",
-                })
-              }
-            >
-              <FaFacebook size={18} />
-              <span>Sign in with Facebook</span>
-            </Button>
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <p className="text-sm text-slate-600 dark:text-slate-400">
-            Don&#39;t have an account?{" "}
-            <Link
-              href="/register"
-              className="text-primary font-medium hover:underline"
-            >
-              Register here
-            </Link>
-          </p>
-        </CardFooter>
-      </Card>
-    </div>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              Don&#39;t have an account?{" "}
+              <Link
+                href="/register"
+                className="text-primary font-medium hover:underline"
+              >
+                Register here
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
+    )
   );
 }

@@ -21,10 +21,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle2, Eye, EyeOff, XCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export default function Signup() {
   const router = useRouter();
   const { toast } = useToast();
+
+  const { data: session, status: sessionStatus } = useSession();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -42,6 +45,13 @@ export default function Signup() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Redirect if user is already authenticated
+  useEffect(() => {
+    if (sessionStatus === "authenticated") {
+      router.replace("/dashboard");
+    }
+  }, [sessionStatus, router]);
 
   // Password strength criteria
   const passwordCriteria = [
@@ -81,6 +91,18 @@ export default function Signup() {
       setPasswordStrength({ score: 0, feedback: "" });
     }
   }, [formData.password]);
+
+  // Show loading state while checking session
+  if (sessionStatus === "loading") {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-slate-50 dark:bg-slate-950 z-50">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-lg font-medium">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -254,157 +276,161 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex justify-center my-8 bg-slate-50 dark:bg-slate-950">
-      <Card className="w-full max-w-md shadow-xl border-none">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold text-center">
-            Register
-          </CardTitle>
-          <CardDescription className="text-center">
-            Create a new account to get started
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-1">
-              <Input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                required
-                className={`bg-white dark:bg-slate-900 ${
-                  touched.username && !usernameState.isValid
-                    ? "border-red-500"
-                    : ""
-                }`}
-              />
-              {touched.username && !usernameState.isValid && (
-                <p className="text-xs text-red-500">{usernameState.message}</p>
-              )}
-            </div>
-
-            <div className="space-y-1">
-              <Input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                required
-                className={`bg-white dark:bg-slate-900 ${
-                  touched.email && !emailState.isValid ? "border-red-500" : ""
-                }`}
-              />
-              {touched.email && !emailState.isValid && (
-                <p className="text-xs text-red-500">{emailState.message}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <div className="relative">
+    sessionStatus !== "authenticated" && (
+      <div className="flex justify-center my-8 bg-slate-50 dark:bg-slate-950">
+        <Card className="w-full max-w-md shadow-xl border-none">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-3xl font-bold text-center">
+              Register
+            </CardTitle>
+            <CardDescription className="text-center">
+              Create a new account to get started
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-1">
                 <Input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  value={formData.username}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  className="bg-white dark:bg-slate-900 pr-10"
+                  className={`bg-white dark:bg-slate-900 ${
+                    touched.username && !usernameState.isValid
+                      ? "border-red-500"
+                      : ""
+                  }`}
                 />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
+                {touched.username && !usernameState.isValid && (
+                  <p className="text-xs text-red-500">
+                    {usernameState.message}
+                  </p>
+                )}
               </div>
 
-              {formData.password && (
-                <>
-                  <div className="space-y-1">
-                    <div className="flex justify-between items-center text-xs pb-1">
-                      <span>Password strength</span>
-                      <span
-                        className={`font-medium ${
-                          passwordStrength.score > 60
-                            ? "text-green-500"
-                            : "text-gray-500"
-                        }`}
-                      >
-                        {passwordStrength.feedback}
-                      </span>
-                    </div>
-                    <Progress
-                      value={passwordStrength.score}
-                      className="h-1.5 w-full bg-gray-200 dark:bg-gray-700"
-                    >
-                      <div
-                        className={`h-full ${getProgressColor()}`}
-                        style={{ width: `${passwordStrength.score}%` }}
-                      />
-                    </Progress>
-                  </div>
+              <div className="space-y-1">
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  className={`bg-white dark:bg-slate-900 ${
+                    touched.email && !emailState.isValid ? "border-red-500" : ""
+                  }`}
+                />
+                {touched.email && !emailState.isValid && (
+                  <p className="text-xs text-red-500">{emailState.message}</p>
+                )}
+              </div>
 
-                  <div className="pt-2 space-y-1">
-                    {passwordCriteria.map((criteria) => (
-                      <div
-                        key={criteria.id}
-                        className="flex items-center text-xs gap-1.5"
-                      >
-                        {criteria.regex.test(formData.password) ? (
-                          <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-                        ) : (
-                          <XCircle className="h-3.5 w-3.5 text-gray-400" />
-                        )}
+              <div className="space-y-2">
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    required
+                    className="bg-white dark:bg-slate-900 pr-10"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
+
+                {formData.password && (
+                  <>
+                    <div className="space-y-1">
+                      <div className="flex justify-between items-center text-xs pb-1">
+                        <span>Password strength</span>
                         <span
-                          className={
-                            criteria.regex.test(formData.password)
-                              ? "text-green-600 dark:text-green-400"
+                          className={`font-medium ${
+                            passwordStrength.score > 60
+                              ? "text-green-500"
                               : "text-gray-500"
-                          }
+                          }`}
                         >
-                          {criteria.label}
+                          {passwordStrength.feedback}
                         </span>
                       </div>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Registering..." : "Register"}
-            </Button>
-          </form>
+                      <Progress
+                        value={passwordStrength.score}
+                        className="h-1.5 w-full bg-gray-200 dark:bg-gray-700"
+                      >
+                        <div
+                          className={`h-full ${getProgressColor()}`}
+                          style={{ width: `${passwordStrength.score}%` }}
+                        />
+                      </Progress>
+                    </div>
 
-          <div className="relative my-4">
-            <Separator />
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-950 px-2 text-xs text-slate-500">
-              OR
-            </span>
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <p className="text-sm text-slate-600 dark:text-slate-400">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="text-primary font-medium hover:underline"
-            >
-              Login here
-            </Link>
-          </p>
-        </CardFooter>
-      </Card>
-    </div>
+                    <div className="pt-2 space-y-1">
+                      {passwordCriteria.map((criteria) => (
+                        <div
+                          key={criteria.id}
+                          className="flex items-center text-xs gap-1.5"
+                        >
+                          {criteria.regex.test(formData.password) ? (
+                            <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                          ) : (
+                            <XCircle className="h-3.5 w-3.5 text-gray-400" />
+                          )}
+                          <span
+                            className={
+                              criteria.regex.test(formData.password)
+                                ? "text-green-600 dark:text-green-400"
+                                : "text-gray-500"
+                            }
+                          >
+                            {criteria.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? "Registering..." : "Register"}
+              </Button>
+            </form>
+
+            <div className="relative my-4">
+              <Separator />
+              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-950 px-2 text-xs text-slate-500">
+                OR
+              </span>
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-primary font-medium hover:underline"
+              >
+                Login here
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
+    )
   );
 }
