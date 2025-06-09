@@ -171,13 +171,13 @@ export default function ForgotPassword() {
               Check Your Email
             </CardTitle>
             <CardDescription>
-              We've sent password reset instructions to{" "}
+              We&apos;ve sent password reset instructions to{" "}
               <span className="font-medium">{formData.email}</span>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center text-sm text-slate-600 dark:text-slate-400">
-              <p>Didn't receive the email? Check your spam folder or</p>
+              <p>Didn&apos;t receive the email? Check your spam folder or</p>
               <button
                 onClick={() => {
                   setEmailSent(false);
@@ -213,8 +213,8 @@ export default function ForgotPassword() {
               Forgot Password
             </CardTitle>
             <CardDescription className="text-center">
-              Enter your email address and we'll send you a link to reset your
-              password
+              Enter your email address and we&apos;ll send you a link to reset
+              your password
             </CardDescription>
           </CardHeader>
           <CardContent>
